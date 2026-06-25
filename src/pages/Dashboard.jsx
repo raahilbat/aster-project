@@ -45,7 +45,7 @@ export default function Dashboard() {
             {riskData?.answers.name ? `Welcome back, ${riskData.answers.name}` : 'Your health overview at a glance'}
           </p>
         </div>
-        <Link to="/questionnaire" className="btn-primary">Retake Assessment</Link>
+        <Link to="/questionnaire" className="btn-primary">Re-take Assessment</Link>
       </div>
 
       {hasNoData && (
