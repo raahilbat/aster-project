@@ -179,3 +179,4 @@ All data (questionnaire responses, lab values, CGM readings) is stored exclusive
 ## Disclaimer
 
 This application is for informational and educational purposes only. It does not constitute medical advice, diagnosis, or treatment. Risk scores are calculated using published epidemiological models (FINDRISC, CDC NHANES). Only a qualified healthcare professional can diagnose diabetes or related conditions. If you have concerns about your health, please consult your doctor.
+# aster-project
