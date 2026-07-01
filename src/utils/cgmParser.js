@@ -48,10 +48,11 @@ export function parseLibreCSV(csvText) {
 }
 
 // ── Dexcom JSON parser ────────────────────────────────────
-// Dexcom API v3 response: { egvs: [{ systemTime, displayTime, value, trend, trendRate }] }
+// G6 response: { egvs: [...] }
+// G7 response: { records: [...] }  ← different key!
 
 export function parseDexcomData(apiResponse) {
-  const egvs = apiResponse?.egvs || apiResponse?.estimatedGlucoseValues || [];
+  const egvs = apiResponse?.records || apiResponse?.egvs || apiResponse?.estimatedGlucoseValues || [];
   return egvs
     .map(r => ({
       timestamp: new Date(r.displayTime || r.systemTime),

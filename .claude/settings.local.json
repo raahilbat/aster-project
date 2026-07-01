@@ -4,7 +4,21 @@
       "Bash(npm --version)",
       "Bash(npm approve-scripts *)",
       "Bash(npx vite *)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(pkill -f \"vite\")",
+      "Bash(pkill -f \"server.js\")",
+      "Bash(node --env-file=.env server.js)",
+      "Bash(curl -s http://localhost:3001/health)",
+      "Bash(curl -s 'http://localhost:3001/api/dexcom/data?path=%2Fv3%2Fusers%2Fself%2Fstatistics&startDate=2026-06-11T10:34:31&endDate=2026-06-25T10:34:31&targetRangeLowMgdl=70&targetRangeHighMgdl=180' -H 'Authorization: Bearer test_token_123')",
+      "Bash(curl -s 'http://localhost:3001/api/dexcom/data?path=%2Fv3%2Fusers%2Fself%2Fstatistics&startDate=2026-06-11T07%3A01%3A52&endDate=2026-06-25T07%3A01%3A52&targetRangeLowMgdl=70&targetRangeHighMgdl=180' -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ODFlOWZhYS1mOGQ1LTRjNTMtOTVkMS1jN2RkOTk2YTkxNjkiLCJhdWQiOiJodHRwczovL2RldmVsb3Blci1hcGktcHJvZC11cy5wbGF0Zm9ybS5kZXhjb21kZXYuY29tL2lkZW50aXR5Iiwic2NvcGUiOlsiZWd2IiwiY2FsaWJyYXRpb24iLCJkZXZpY2UiLCJldmVudCIsInN0YXRpc3RpY3MiLCJvZmZsaW5lX2FjY2VzcyJdLCJpc3MiOiJodHRwczovL2RldmVsb3Blci1hcGktcHJvZC11cy5wbGF0Zm9ybS5kZXhjb21kZXYuY29tL2lkZW50aXR5IiwiZXhwIjoxNzgyMzkyNTg1LCJpYXQiOjE3ODIzODUzODUsImNsaWVudF9pZCI6IkNtRWdYQjdQZTlzSzI5cVVoM24zOHNZWTE4eDMxc0tOIn0.A0MY661VdZM_EDaelWexMnZpLf8imRRxK8FAr25tAoY0y6DHbj_N-ckdw8ggRQbggbVXwfyob2KXTePVUfEBV-SLFMn_vBsNVYOxswF93lHwp_MEEWZ-NTxUzBkAgUBgsmFzPAxJmJSvrT1UXBef_rC3qDPcxWrpc7h1Bkq8-vUsInRIn6QcYAbhYquBxkjq6dNlJYq7uOvYSPWg6LUvU7hqVkIXMTtWzK5lUxzCu0ap3SZbFY0199M4AaPm93x4RMyc--UIzi7ag55j9f70KhDWtbfAwPdN01qj0jZHXAjwyw_-tR93wf3ze4l2w1vZARkXSEnlBjVDl_4vljRNWA')",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/index.ts)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/libre-link-up/index.ts)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/README.md)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/constants/llu-api-endpoints.ts)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/interfaces/librelink/graph-response.ts)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/nightscout/apiv1.ts)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/interfaces/librelink/common.ts)",
+      "Bash(curl -s https://raw.githubusercontent.com/timoschlueter/nightscout-librelink-up/main/src/nightscout/apiv3.ts)"
     ]
   }
 }

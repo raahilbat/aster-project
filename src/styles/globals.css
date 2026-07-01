@@ -866,8 +866,7 @@ body {
 
 /* ─── Dashboard ──────────────────────────────────────────── */
 .dashboard-page {
-  padding: 40px 24px 80px;
-  max-width: var(--max-width);
+  padding: 40px 10%;
   margin: 0 auto;
 }
 
@@ -1029,8 +1028,7 @@ body {
 
 /* ─── CGM Integration ────────────────────────────────────── */
 .cgm-page {
-  padding: 40px 24px 80px;
-  max-width: 720px;
+  padding: 40px 10%;
   margin: 0 auto;
 }
 
