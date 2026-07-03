@@ -2,7 +2,25 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Route API calls to Netlify Functions (must come before the SPA catch-all)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from   = "/api/dexcom/token"
+  to     = "/.netlify/functions/dexcom-token"
+  status = 200
+  force  = true
+
+[[redirects]]
+  from   = "/api/dexcom/data"
+  to     = "/.netlify/functions/dexcom-data"
+  status = 200
+  force  = true
+
+# SPA catch-all — must be last
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
   status = 200

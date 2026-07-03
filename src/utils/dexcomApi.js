@@ -8,11 +8,14 @@
 //
 // Tokens are stored in localStorage and auto-refreshed before expiry.
 
-const SANDBOX_BASE  = 'https://sandbox-api.dexcom.com'
-const PROXY_BASE    = 'http://localhost:3001'
+const SANDBOX_BASE = 'https://sandbox-api.dexcom.com'
 
 // Switch to 'https://api.dexcom.com' for production
 const DEXCOM_BASE = SANDBOX_BASE
+
+// Dev: local proxy server (npm run server)
+// Production: Netlify Functions via relative paths (same origin, no CORS)
+const PROXY_BASE = import.meta.env.DEV ? 'http://localhost:3001' : ''
 
 const REDIRECT_URI = `${window.location.origin}/cgm`
 
