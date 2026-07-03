@@ -13,9 +13,15 @@ const SANDBOX_BASE = 'https://sandbox-api.dexcom.com'
 // Switch to 'https://api.dexcom.com' for production
 const DEXCOM_BASE = SANDBOX_BASE
 
-// Dev: local proxy server (npm run server)
-// Production: Netlify Functions via relative paths (same origin, no CORS)
-const PROXY_BASE = import.meta.env.DEV ? 'http://localhost:3001' : ''
+// Dev:  local proxy server on port 3001  →  /api/dexcom/token  /api/dexcom/data
+// Prod: Netlify Functions native path    →  /.netlify/functions/dexcom-token etc.
+const PROXY_TOKEN = import.meta.env.DEV
+  ? 'http://localhost:3001/api/dexcom/token'
+  : '/.netlify/functions/dexcom-token'
+
+const PROXY_DATA = import.meta.env.DEV
+  ? 'http://localhost:3001/api/dexcom/data'
+  : '/.netlify/functions/dexcom-data'
 
 const REDIRECT_URI = `${window.location.origin}/cgm`
 
@@ -142,7 +148,7 @@ export async function handleCallback(code, clientId) {
   const verifier = sessionStorage.getItem('dexcom_pkce_verifier')
   sessionStorage.removeItem('dexcom_pkce_verifier')
 
-  const res = await fetch(`${PROXY_BASE}/api/dexcom/token`, {
+  const res = await fetch(PROXY_TOKEN, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -169,7 +175,7 @@ async function doRefresh(clientId) {
   const { refreshToken } = getStoredTokens()
   if (!refreshToken) throw new Error('No refresh token — please reconnect.')
 
-  const res = await fetch(`${PROXY_BASE}/api/dexcom/token`, {
+  const res = await fetch(PROXY_TOKEN, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clientId, grantType: 'refresh_token', refreshToken }),
@@ -193,7 +199,7 @@ async function validToken(clientId) {
 async function dexFetch(path, params = {}, clientId = '') {
   const token = await validToken(clientId)
 
-  const proxyUrl = new URL(`${PROXY_BASE}/api/dexcom/data`)
+  const proxyUrl = new URL(PROXY_DATA)
   proxyUrl.searchParams.set('path', path)
   Object.entries(params).forEach(([k, v]) => proxyUrl.searchParams.set(k, String(v)))
 
