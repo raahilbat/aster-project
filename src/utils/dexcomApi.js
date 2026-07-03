@@ -199,7 +199,9 @@ async function validToken(clientId) {
 async function dexFetch(path, params = {}, clientId = '') {
   const token = await validToken(clientId)
 
-  const proxyUrl = new URL(PROXY_DATA)
+  // Use window.location.origin as base so relative paths like /.netlify/functions/...
+  // are resolved correctly. Absolute URLs (localhost:3001) work the same way.
+  const proxyUrl = new URL(PROXY_DATA, window.location.origin)
   proxyUrl.searchParams.set('path', path)
   Object.entries(params).forEach(([k, v]) => proxyUrl.searchParams.set(k, String(v)))
 
