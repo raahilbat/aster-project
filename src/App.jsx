@@ -24,13 +24,13 @@ function AppRoutes() {
       {user && <Navbar />}
       <main className={user ? 'main-content' : ''}>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/"            element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/login"         element={<Login />} />
+          <Route path="/"              element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/questionnaire" element={<ProtectedRoute><Questionnaire /></ProtectedRoute>} />
-          <Route path="/results"     element={<ProtectedRoute><Results /></ProtectedRoute>} />
-          <Route path="/dashboard"   element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/lab-reports" element={<ProtectedRoute><LabReports /></ProtectedRoute>} />
-          <Route path="/cgm"         element={<ProtectedRoute><CGMIntegration /></ProtectedRoute>} />
+          <Route path="/results"       element={<ProtectedRoute><Results /></ProtectedRoute>} />
+          <Route path="/dashboard"     element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/lab-reports"   element={<ProtectedRoute><LabReports /></ProtectedRoute>} />
+          <Route path="/cgm"           element={<ProtectedRoute><CGMIntegration /></ProtectedRoute>} />
         </Routes>
       </main>
     </>
