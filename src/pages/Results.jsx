@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import RiskGauge from '../components/RiskGauge'
 import PopulationChart from '../components/PopulationChart'
+import WorldComparison from '../components/WorldComparison'
 import { calculateT2DRisk, calculateT1DRisk, getRecommendations, compareToPopulation } from '../utils/riskEngine'
 
 export default function Results() {
@@ -161,6 +162,14 @@ export default function Results() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* World comparison — IDF Atlas data */}
+      <div style={{ marginBottom: 8 }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 20 }}>
+          How You Compare to the World
+        </h2>
+        <WorldComparison answers={answers} t2dRisk={t2d} />
       </div>
 
       {/* CTAs */}
