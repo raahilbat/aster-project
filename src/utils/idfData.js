@@ -129,7 +129,7 @@ export function buildWorldComparison(answers, t2dRisk) {
     globalPrevalence:     IDF_GLOBAL.diabetesPrevalence,
     globalUndiagnosed:    IDF_GLOBAL.undiagnosed,
     globalPrediabetes:    IDF_GLOBAL.prediabetes,
-    ageGroupPrevalence,
+    ageGroupPrevalence: agePrevalence,
     withDiabetesInAgeGroup: withDiabetes,
     bmiMultiplier,
     riskPercentile,
