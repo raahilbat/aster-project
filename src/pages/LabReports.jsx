@@ -31,6 +31,30 @@ function getRange(key, val) {
   return { ...r, status, statusLabel, statusClass }
 }
 
+// Defined outside LabReports so React never unmounts it on re-render (fixes focus loss)
+function Field({ fieldKey, label, unit, placeholder, hint, value, onChange }) {
+  const range = getRange(fieldKey, value)
+  return (
+    <div className="field-group">
+      <label className="field-label">
+        {label} {unit && <span className="field-optional">{unit}</span>}
+      </label>
+      <input
+        className="field-input"
+        placeholder={placeholder}
+        value={value}
+        onChange={e => onChange(fieldKey, e.target.value)}
+      />
+      {hint && <div className="field-hint">{hint}</div>}
+      {range && value && (
+        <div className={`field-range ${range.statusClass}`}>
+          {range.status === 'normal' ? '✓' : '⚠'} {range.statusLabel}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function LabReports() {
   const [form, setForm] = useState(INITIAL)
   const [saved, setSaved] = useState(false)
@@ -46,29 +70,6 @@ export default function LabReports() {
     localStorage.setItem('asterLabData', JSON.stringify(form))
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
-  }
-
-  const Field = ({ fieldKey, label, unit, placeholder, hint, step }) => {
-    const range = getRange(fieldKey, form[fieldKey])
-    return (
-      <div className="field-group">
-        <label className="field-label">{label} {unit && <span className="field-optional">{unit}</span>}</label>
-        <input
-          className="field-input"
-          type="number"
-          step={step || '1'}
-          placeholder={placeholder}
-          value={form[fieldKey]}
-          onChange={e => set(fieldKey, e.target.value)}
-        />
-        {hint && <div className="field-hint">{hint}</div>}
-        {range && form[fieldKey] && (
-          <div className={`field-range ${range.statusClass}`}>
-            {range.status === 'normal' ? '✓' : '⚠'} {range.statusLabel}
-          </div>
-        )}
-      </div>
-    )
   }
 
   return (
@@ -91,32 +92,41 @@ export default function LabReports() {
         <div className="lab-section-title" style={{ marginTop: 28 }}>Blood Glucose</div>
         <div className="lab-fields">
           <div className="lab-field-row">
-            <Field fieldKey="hba1c" label="HbA1c" unit="%" placeholder="e.g. 5.7" step="0.1"
-              hint="Reflects average blood sugar over the past 2–3 months" />
+            <Field fieldKey="hba1c" label="HbA1c" unit="%" placeholder="e.g. 5.7"
+              hint="Reflects average blood sugar over the past 2–3 months"
+              value={form.hba1c} onChange={set} />
             <Field fieldKey="fastingGlucose" label="Fasting Glucose" unit="mg/dL" placeholder="e.g. 95"
-              hint="Measured after at least 8 hours without eating" />
+              hint="Measured after at least 8 hours without eating"
+              value={form.fastingGlucose} onChange={set} />
           </div>
           <div className="lab-field-row">
             <Field fieldKey="postMealGlucose" label="2hr Post-Meal Glucose" unit="mg/dL" placeholder="e.g. 130"
-              hint="Measured 2 hours after a meal" />
+              hint="Measured 2 hours after a meal"
+              value={form.postMealGlucose} onChange={set} />
             <Field fieldKey="insulin" label="Fasting Insulin" unit="µIU/mL" placeholder="e.g. 8"
-              hint="High fasting insulin can indicate insulin resistance" />
+              hint="High fasting insulin can indicate insulin resistance"
+              value={form.insulin} onChange={set} />
           </div>
           <div className="lab-field-row">
             <Field fieldKey="cPeptide" label="C-Peptide" unit="ng/mL" placeholder="e.g. 1.5"
-              hint="Distinguishes T1D (low/absent) from T2D. Normal: 0.5–2.0 ng/mL" />
+              hint="Distinguishes T1D (low/absent) from T2D. Normal: 0.5–2.0 ng/mL"
+              value={form.cPeptide} onChange={set} />
           </div>
         </div>
 
         <div className="lab-section-title" style={{ marginTop: 28 }}>Cholesterol Panel (Lipids)</div>
         <div className="lab-fields">
           <div className="lab-field-row">
-            <Field fieldKey="totalCholesterol" label="Total Cholesterol" unit="mg/dL" placeholder="e.g. 185" />
-            <Field fieldKey="ldl" label="LDL ('Bad') Cholesterol" unit="mg/dL" placeholder="e.g. 110" />
+            <Field fieldKey="totalCholesterol" label="Total Cholesterol" unit="mg/dL" placeholder="e.g. 185"
+              value={form.totalCholesterol} onChange={set} />
+            <Field fieldKey="ldl" label="LDL ('Bad') Cholesterol" unit="mg/dL" placeholder="e.g. 110"
+              value={form.ldl} onChange={set} />
           </div>
           <div className="lab-field-row">
-            <Field fieldKey="hdl" label="HDL ('Good') Cholesterol" unit="mg/dL" placeholder="e.g. 55" />
-            <Field fieldKey="triglycerides" label="Triglycerides" unit="mg/dL" placeholder="e.g. 130" />
+            <Field fieldKey="hdl" label="HDL ('Good') Cholesterol" unit="mg/dL" placeholder="e.g. 55"
+              value={form.hdl} onChange={set} />
+            <Field fieldKey="triglycerides" label="Triglycerides" unit="mg/dL" placeholder="e.g. 130"
+              value={form.triglycerides} onChange={set} />
           </div>
         </div>
 
@@ -124,8 +134,10 @@ export default function LabReports() {
         <div className="lab-fields">
           <div className="lab-field-row">
             <Field fieldKey="bloodPressure" label="Systolic Blood Pressure" unit="mmHg" placeholder="e.g. 118"
-              hint="The top number in a blood pressure reading" />
-            <Field fieldKey="heartRate" label="Resting Heart Rate" unit="bpm" placeholder="e.g. 68" />
+              hint="The top number in a blood pressure reading"
+              value={form.bloodPressure} onChange={set} />
+            <Field fieldKey="heartRate" label="Resting Heart Rate" unit="bpm" placeholder="e.g. 68"
+              value={form.heartRate} onChange={set} />
           </div>
         </div>
 
