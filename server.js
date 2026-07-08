@@ -102,6 +102,29 @@ const server = createServer(async (req, res) => {
     }
   }
 
+  // GET /api/who-diabetes — proxies WHO GHO diabetes prevalence API for local dev
+  if (req.method === 'GET' && req.url === '/api/who-diabetes') {
+    try {
+      const url = 'https://ghoapi.azureedge.net/api/NCD_DIABETES_PREVALENCE_AGESTD'
+        + '?$filter=SpatialDimType eq \'COUNTRY\' and TimeDim eq 2022 and Dim1 eq \'SEX_BTSX\''
+        + '&$select=SpatialDim,ParentLocationCode,ParentLocation,NumericValue,Value'
+      const whoRes  = await fetch(encodeURI(url))
+      const whoJson = await whoRes.json()
+      const REGION_NAMES = { AFR:'Africa', AMR:'Americas', EMR:'Eastern Mediterranean', EUR:'Europe', SEAR:'South-East Asia', WPR:'Western Pacific' }
+      const seen = new Set()
+      const countries = (whoJson.value || [])
+        .filter(r => r.NumericValue != null && !seen.has(r.SpatialDim) && seen.add(r.SpatialDim))
+        .map(r => ({ code: r.SpatialDim, regionCode: r.ParentLocationCode, region: REGION_NAMES[r.ParentLocationCode] || r.ParentLocation, prevalence: parseFloat(r.NumericValue.toFixed(2)) }))
+        .sort((a, b) => b.prevalence - a.prevalence)
+      const byRegion = {}
+      countries.forEach(c => { if (!byRegion[c.regionCode]) byRegion[c.regionCode] = { name: c.region, values: [] }; byRegion[c.regionCode].values.push(c.prevalence) })
+      const regions = Object.entries(byRegion).map(([code, r]) => ({ regionCode: code, region: r.name, avg: parseFloat((r.values.reduce((s,v)=>s+v,0)/r.values.length).toFixed(2)), count: r.values.length })).sort((a,b)=>b.avg-a.avg)
+      return json(res, 200, { source:'WHO Global Health Observatory', indicator:'NCD_DIABETES_PREVALENCE_AGESTD', year:2022, total:countries.length, countries, regions })
+    } catch (err) {
+      return json(res, 502, { error: err.message })
+    }
+  }
+
   // GET /api/dexcom/data?path=/v3/users/self/egvs&startDate=...
   // Generic proxy for all Dexcom API calls — forwards Authorization header.
   // Required because Dexcom doesn't set CORS headers for browser requests.
